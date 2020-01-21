@@ -32,6 +32,28 @@ func LoadImage(filename string) (*image.Image, error) {
     return nil, fmt.Errorf("%s is not image file", filename)
 }
 
+func LoadJpegImage(filename string) (*image.Image, error) {
+    file, err := os.Open(filename)
+    if err != nil {
+        return nil, err
+    }
+    defer file.Close()
+
+    img, err := jpeg.Decode(file)
+    return &img, err;
+}
+
+func LoadPngImage(filename string) (*image.Image, error) {
+    file, err := os.Open(filename)
+    if err != nil {
+        return nil, err
+    }
+    defer file.Close()
+
+    img, err := png.Decode(file)
+    return &img, err;
+}
+
 func ResizeFile(img *image.Image, width, height uint, skipSmall bool) *image.Image {
     if skipSmall {
         if width > 0 && (*img).Bounds().Size().X < int(width) {
