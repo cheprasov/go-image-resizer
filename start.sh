@@ -1,9 +1,9 @@
 #!/bin/bash
 
 go run ./cmd/resizer.go \
-  --source-path="/Users/cheprasov/Photos/" \
-  --output-path="/Users/cheprasov/Photos2/" \
+  --source-path="$1" \
+  --output-path="${1}_resized" \
   --width=620 \
   --quality=75 \
-  --prefix=small_ \
+  --large-only \
   --verbose \
