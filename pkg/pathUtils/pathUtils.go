@@ -1,6 +1,8 @@
 package pathUtils
 
 import (
+	"log"
+	"os"
 	"path"
 	"strings"
 )
@@ -8,7 +10,15 @@ import (
 // /for/bar/ => /foo/bar
 // foo => /foo
 func NormalizePath(dir string) string {
-	dir = path.Clean("/" + dir)
+	if len(dir) > 0 && dir[0] == '.' {
+		p, err := os.Getwd()
+		if err != nil {
+			log.Println(err)
+		} else {
+			dir = p + "/" + dir
+		}
+	}
+	dir = path.Clean(dir)
 	if dir != "/" {
 		dir = strings.TrimSuffix(dir, "/")
 	}

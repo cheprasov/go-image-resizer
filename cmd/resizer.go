@@ -88,6 +88,10 @@ func main() {
 		}
 		os.Exit(0)
 	}
+	if !fs.IsDirExists(cfg.SourcePath) {
+		fmt.Printf("No such file or director: %s\n", cfg.SourcePath)
+		os.Exit(1)
+	}
 
 	filesMapPointer, _ := fs.ReadFolder(cfg.SourcePath, nil, true)
 	cfg.IsSingleFile = false
