@@ -8,15 +8,17 @@ import (
 )
 
 type Config struct {
-	SourcePath  string
-	OutputPath  string
-	Width       uint
-	Height      uint
-	Quality     uint8
-	Prefix      string
-	Extension   string
-	IsLargeOnly bool
-	IsVerbose   bool
+	SourcePath   string
+	OutputPath   string
+	Width        uint
+	Height       uint
+	Quality      uint8
+	Prefix       string
+	Extension    string
+	IsLargeOnly  bool
+	IsVerbose    bool
+	IsSingleFile bool
+	Limit        uint
 }
 
 var typeByExt = map[string]bool{
@@ -34,18 +36,24 @@ func GetConfig() *Config {
 	convertTo := flag.String("convert-to", "", "Please provide --convert-to")
 	prefix := flag.String("prefix", "", "Please provide --prefix")
 	verbose := flag.Bool("verbose", false, "Please provide --verbose")
+	limit := flag.Uint("limit", 0, "Please provide --limit")
 	flag.Parse()
 
 	config := Config{
-		SourcePath:  pathUtils.NormalizePath(*sourcePath),
-		OutputPath:  pathUtils.NormalizePath(*outputPath),
-		Width:       *width,
-		Height:      *height,
-		Quality:     uint8(*quality),
-		Extension:   *convertTo,
-		IsLargeOnly: *largeOnly,
-		Prefix:      *prefix,
-		IsVerbose:   *verbose,
+		SourcePath:   pathUtils.NormalizePath(*sourcePath),
+		OutputPath:   "",
+		Width:        *width,
+		Height:       *height,
+		Quality:      uint8(*quality),
+		Extension:    *convertTo,
+		IsLargeOnly:  *largeOnly,
+		Prefix:       *prefix,
+		IsVerbose:    *verbose,
+		IsSingleFile: false,
+		Limit:        *limit,
+	}
+	if len(*outputPath) > 0 {
+		config.OutputPath = pathUtils.NormalizePath(*outputPath)
 	}
 	return &config
 }
@@ -57,12 +65,16 @@ func GetValidConfig() *Config {
 		log.Fatal("Please provide --source-path")
 	}
 
-	if len(c.OutputPath) == 0 {
-		log.Fatal("Please provide --output-path")
-	}
+	// if len(c.OutputPath) == 0 {
+	// 	log.Fatal("Please provide --output-path")
+	// }
 
 	if c.SourcePath == c.OutputPath && len(c.Prefix) == 0 {
-		log.Fatal("--source-path and --source-path should be not equal, or please use --prefix")
+		log.Fatal("--source-path and --output-path should be not equal, or please use --prefix")
+	}
+
+	if len(c.OutputPath) == 0 && len(c.Prefix) == 0 {
+		log.Fatal("Please use --prefix if --output-path is not provided")
 	}
 
 	if _, ok := typeByExt[c.Extension]; !ok && len(c.Extension) > 0 {
