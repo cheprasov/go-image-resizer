@@ -7,3 +7,4 @@ go run ./cmd/resizer.go \
   --quality=75 \
   --large-only \
   --verbose \
+  --info

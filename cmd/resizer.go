@@ -66,6 +66,17 @@ func resizeImage(cfg config.Config, filename, outFilename string) (bool, error) 
 
 	verbose("Saved as %s\n", outFilename)
 
+	if cfg.IsInfo {
+		verbose("\n")
+		fmt.Printf(
+			"{\"origin\":{\"width\":%d,\"height\":%d},\"resize\":{\"width\":%d,\"height\":%d}}",
+			(*img).Bounds().Size().X,
+			(*img).Bounds().Size().Y,
+			(*resizedImg).Bounds().Size().X,
+			(*resizedImg).Bounds().Size().Y,
+		)
+	}
+
 	return true, nil
 }
 

@@ -6,4 +6,4 @@ go run ./cmd/resizer.go \
   --width=$2 \
   --quality=75 \
   --large-only \
-  --verbose \
+  --info

@@ -17,6 +17,7 @@ type Config struct {
 	Extension    string
 	IsLargeOnly  bool
 	IsVerbose    bool
+	IsInfo       bool
 	IsSingleFile bool
 	Limit        uint
 }
@@ -36,6 +37,7 @@ func GetConfig() *Config {
 	convertTo := flag.String("convert-to", "", "Please provide --convert-to")
 	prefix := flag.String("prefix", "", "Please provide --prefix")
 	verbose := flag.Bool("verbose", false, "Please provide --verbose")
+	info := flag.Bool("info", false, "Please provide --info")
 	limit := flag.Uint("limit", 0, "Please provide --limit")
 	flag.Parse()
 
@@ -49,6 +51,7 @@ func GetConfig() *Config {
 		IsLargeOnly:  *largeOnly,
 		Prefix:       *prefix,
 		IsVerbose:    *verbose,
+		IsInfo:       *info,
 		IsSingleFile: false,
 		Limit:        *limit,
 	}
