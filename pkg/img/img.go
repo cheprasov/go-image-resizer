@@ -3,6 +3,7 @@ package img
 import (
 	"fmt"
 	"image"
+	"image/gif"
 	"image/jpeg"
 	"image/png"
 	"os"
@@ -41,6 +42,11 @@ func SaveImage(filename string, img *image.Image, quality uint8) error {
 
 	if fs.IsPngFile(filename) {
 		return png.Encode(outFile, *img)
+	}
+
+	if fs.IsGifFile(filename) {
+		options := &gif.Options{NumColors: 256}
+		return gif.Encode(outFile, *img, options)
 	}
 
 	return fmt.Errorf("%s is not image file", filename)

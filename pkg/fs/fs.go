@@ -39,12 +39,22 @@ func IsPngFile(filename string) bool {
 	return ext == ".png"
 }
 
+func IsGifFile(filename string) bool {
+	ext := GetFileExtension(filename)
+	return ext == ".gif"
+}
+
+func IsWebpFile(filename string) bool {
+	ext := GetFileExtension(filename)
+	return ext == ".gif"
+}
+
 func IsImageFile(filename string) bool {
 	ext := GetFileExtension(filename)
 	if !IsAllowedFile(filename) {
 		return false
 	}
-	return ext == ".png" || ext == ".jpg" || ext == ".jpeg"
+	return ext == ".png" || ext == ".jpg" || ext == ".jpeg" || ext == ".gif" || ext == ".webp"
 }
 
 type FolderContent struct {
